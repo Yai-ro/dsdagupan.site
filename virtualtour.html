@@ -5,130 +5,115 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Unity Web Player | Virtual Tour</title>
     <link rel="shortcut icon" href="files/dsdlogo.png">
-    <!-- Fonts for Modern Look -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <style>
-      /* --- General Reset --- */
       body, html {
-          margin: 0;
-          padding: 0;
-          height: 100%;
-          width: 100%;
-          overflow: hidden;
-          font-family: 'Montserrat', sans-serif;
-          background-color: #000;
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        font-family: 'Montserrat', sans-serif;
+        background-color: #000;
       }
 
-      /* --- Unity Container --- */
       #unity-container {
-          position: absolute;
-          width: 100%;
-          height: 100%; 
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          background-color: #000;
-          overflow: hidden;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #000;
+        overflow: hidden;
       }
 
       #unity-canvas {
-          background: #231F20;
-          outline: none;
+        background: #231F20;
+        outline: none;
       }
 
-      /* --- Modern Loading Screen Overlay --- */
       #loading-cover {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: #1a1a1a; /* Dark sleek background */
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          z-index: 999; /* Stays on top of canvas */
-          transition: opacity 0.5s ease;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #1a1a1a;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+        transition: opacity 0.5s ease;
       }
 
-      /* Logo Styling */
       .school-logo {
-          max-width: 250px; /* Adjust size as needed */
-          height: auto;
-          margin-bottom: 30px; /* Space between logo and bar */
-          filter: drop-shadow(0 0 10px rgba(255,255,255,0.1));
+        max-width: 250px;
+        height: auto;
+        margin-bottom: 30px;
+        filter: drop-shadow(0 0 10px rgba(255,255,255,0.1));
       }
 
-      /* Progress Bar Container */
       .progress-container {
-          width: 300px;
-          height: 6px; /* Sleek thin line */
-          background: rgba(255, 255, 255, 0.2);
-          border-radius: 4px;
-          overflow: hidden;
-          position: relative;
+        width: 300px;
+        height: 6px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+        overflow: hidden;
+        position: relative;
       }
 
-      /* The Moving Fill */
       #unity-progress-bar-full {
-          width: 0%;
-          height: 100%;
-          background: #3498db; /* Modern Blue - change to school color if needed (e.g., #ffd700 for gold) */
-          box-shadow: 0 0 10px rgba(52, 152, 219, 0.7); /* Glow effect */
-          transition: width 0.2s ease;
+        width: 0%;
+        height: 100%;
+        background: #3498db;
+        box-shadow: 0 0 10px rgba(52, 152, 219, 0.7);
+        transition: width 0.2s ease;
       }
 
-      /* Loading Text */
       #unity-progress-text {
-          margin-top: 15px;
-          color: #ffffff;
-          font-size: 0.9rem;
-          font-weight: 500;
-          letter-spacing: 1px;
-          text-transform: uppercase;
+        margin-top: 15px;
+        color: #ffffff;
+        font-size: 0.9rem;
+        font-weight: 500;
+        letter-spacing: 1px;
+        text-transform: uppercase;
       }
 
-      /* Warning Banner */
       #unity-warning {
-          position: absolute;
-          bottom: 10px;
-          left: 50%;
-          transform: translateX(-50%);
-          z-index: 1000;
-          background: rgba(0,0,0,0.7);
-          padding: 10px;
-          border-radius: 5px;
-          display: none; /* Hidden by default */
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1000;
+        background: rgba(0,0,0,0.7);
+        padding: 10px;
+        border-radius: 5px;
+        display: none;
+        color: white;
+        max-width: 90%;
+        text-align: center;
       }
     </style>
   </head>
   <body>
-    
     <div id="unity-container">
-      <!-- The Canvas -->
       <canvas id="unity-canvas" tabindex="-1"></canvas>
-      
-      <!-- Modern Loading Overlay -->
+
       <div id="loading-cover">
-          <!-- Logo Input -->
-          <img src="/files/dsdlogo.png" alt="School Logo" class="school-logo" onerror="this.style.display='none'">
-          
-          <!-- Progress Bar -->
-          <div class="progress-container">
-              <div id="unity-progress-bar-full"></div>
-          </div>
-          
-          <!-- Text -->
-          <div id="unity-progress-text">Loading Experience... 0%</div>
+        <img src="files/dsdlogo.png" alt="School Logo" class="school-logo" onerror="this.style.display='none'">
+        <div class="progress-container">
+          <div id="unity-progress-bar-full"></div>
+        </div>
+        <div id="unity-progress-text">Loading Experience... 0%</div>
       </div>
 
       <div id="unity-warning"></div>
     </div>
 
     <script>
-      // --- Element References ---
       var container = document.querySelector("#unity-container");
       var canvas = document.querySelector("#unity-canvas");
       var loadingCover = document.querySelector("#loading-cover");
@@ -136,48 +121,51 @@
       var progressText = document.querySelector("#unity-progress-text");
       var warningBanner = document.querySelector("#unity-warning");
 
-      // Aspect Ratio Logic (16:9)
-      const ASPECT_RATIO = 1280 / 720; 
+      const ASPECT_RATIO = 1280 / 720;
 
-      // Banner for Unity Errors
       function unityShowBanner(msg, type) {
         function updateBannerVisibility() {
-          warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
+          warningBanner.style.display = warningBanner.children.length ? "block" : "none";
         }
-        var div = document.createElement('div');
+
+        var div = document.createElement("div");
         div.innerHTML = msg;
-        div.style.color = type === 'error' ? '#ff5555' : '#ffff55'; // Red for error, yellow for warning
+        div.style.margin = "6px 0";
+        div.style.color = type === "error" ? "#ff5555" : "#ffff55";
         warningBanner.appendChild(div);
-        
-        if (type !== 'error') {
+
+        if (type !== "error") {
           setTimeout(function() {
-            warningBanner.removeChild(div);
-            updateBannerVisibility();
+            if (warningBanner.contains(div)) {
+              warningBanner.removeChild(div);
+              updateBannerVisibility();
+            }
           }, 5000);
         }
+
         updateBannerVisibility();
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/194c4c174326586a08a923d4727990c5.loader.js";
+      var loaderUrl = buildUrl + "/3b1b53cd0ff9cac2825bc9ca0a2058a9.loader.js";
+
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "/b0c4c1ffc84c72a8b66290744c39268b.data.unityweb",
+        dataUrl: buildUrl + "/771e6247952ee19f14f222c23dbe1e14.data.unityweb",
         frameworkUrl: buildUrl + "/6b8a8bfcd0798beb468b30dcb2d28c39.framework.js.unityweb",
         codeUrl: buildUrl + "/2b0d8a3d239aad7c13b95c62efe63a42.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "3D School Building",
         productVersion: "BETA",
-        showBanner: unityShowBanner,
+        showBanner: unityShowBanner
       };
 
-      // Responsive Canvas Sizing
       function resizeCanvas() {
         const containerWidth = container.offsetWidth;
         const containerHeight = container.offsetHeight;
         const currentRatio = containerWidth / containerHeight;
-        
+
         let newWidth, newHeight;
 
         if (currentRatio > ASPECT_RATIO) {
@@ -193,36 +181,39 @@
       }
 
       resizeCanvas();
-      window.addEventListener('resize', resizeCanvas);
+      window.addEventListener("resize", resizeCanvas);
 
-      // Mobile Viewport Fix
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-        var meta = document.createElement('meta');
-        meta.name = 'viewport';
-        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-        document.getElementsByTagName('head')[0].appendChild(meta);
+        var meta = document.createElement("meta");
+        meta.name = "viewport";
+        meta.content = "width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes";
+        document.getElementsByTagName("head")[0].appendChild(meta);
       }
 
-      // Load Unity
       var script = document.createElement("script");
       script.src = loaderUrl;
+
       script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
-          // Update visual progress
           const percentage = Math.round(progress * 100);
           progressBarFull.style.width = percentage + "%";
-          progressText.textContent = `Loading... ${percentage}%`;
+          progressText.textContent = "Loading... " + percentage + "%";
         }).then((unityInstance) => {
-          // Fade out loading screen when done
           loadingCover.style.opacity = "0";
           setTimeout(() => {
             loadingCover.style.display = "none";
-          }, 500); // Wait for fade out transition
+          }, 500);
         }).catch((message) => {
           console.error(message);
-          progressText.innerHTML = `<span style="color:#ff5555;">Error loading tour. Check console.</span>`;
+          unityShowBanner(message, "error");
+          progressText.innerHTML = '<span style="color:#ff5555;">Error loading tour. Check console.</span>';
         });
       };
+
+      script.onerror = () => {
+        unityShowBanner("Failed to load Unity loader file. Check if the Build folder and file names are correct.", "error");
+      };
+
       document.body.appendChild(script);
     </script>
   </body>
