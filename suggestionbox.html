@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Game Feedback - Dominican Virtual Tour</title>
+
+    <style>
+        :root {
+            --black: #07090f;
+            --blue-deep: #051636;
+            --blue-mid: #0a2a5e;
+            --gold: #ffd700;
+            --gold-dim: rgba(255, 215, 0, 0.15);
+            --silver: #c8cdd8;
+            --white: #ffffff;
+            --white-soft: rgba(255, 255, 255, 0.80);
+            --border: rgba(255, 255, 255, 0.09);
+            --card-bg: rgba(10, 42, 94, 0.50);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 17px;
+            color: var(--white);
+            background: var(--black);
+            -webkit-tap-highlight-color: transparent;
+            line-height: 1.7;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(5,22,54,0.78) 0%, rgba(0,0,0,0.85) 100%);
+            z-index: -1;
+        }
+
+        .main-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 68px;
+            padding: 0 4%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(7, 9, 15, 0.90);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(16px);
+            z-index: 1000;
+        }
+
+        .logo-container img {
+            height: 40px;
+            width: auto;
+        }
+
+        .btn-outline-small {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: transparent;
+            color: var(--silver);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 0.4rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+        }
+
+        .btn-outline-small:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 100px 5% 40px;
+        }
+
+        .suggestion-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 3rem 4rem;
+            width: 100%;
+            max-width: 650px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            backdrop-filter: blur(10px);
+        }
+
+        .suggestion-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .suggestion-header h1 {
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            font-size: 3.5rem;
+            letter-spacing: 3px;
+            color: var(--white);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .suggestion-header h1 span {
+            color: var(--gold);
+        }
+
+        .suggestion-header p {
+            color: var(--white-soft);
+            font-size: 1.05rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--silver);
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .form-control {
+            width: 100%;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            color: var(--white);
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-control::placeholder {
+            color: rgba(255,255,255,0.3);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--gold);
+            background: rgba(255,215,0,0.03);
+            box-shadow: 0 0 0 3px rgba(255,215,0,0.1);
+        }
+
+        .select-wrapper {
+            position: relative;
+        }
+
+        .select-arrow {
+            position: absolute;
+            top: 50%;
+            right: 1rem;
+            width: 0.75rem;
+            height: 0.75rem;
+            border-right: 2px solid var(--silver);
+            border-bottom: 2px solid var(--silver);
+            transform: translateY(-70%) rotate(45deg);
+            transition: transform 0.2s ease, border-color 0.2s ease;
+            pointer-events: none;
+        }
+
+        .select-wrapper.is-open .select-arrow {
+            transform: translateY(-30%) rotate(-135deg);
+            border-color: var(--gold);
+        }
+
+        select.form-control {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            padding-right: 3rem;
+            background-image: none;
+            cursor: pointer;
+        }
+
+        select.form-control option {
+            background: var(--black);
+            color: var(--white);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 140px;
+        }
+
+        .btn-submit {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            width: 100%;
+            padding: 1.1rem;
+            margin-top: 1rem;
+            background: var(--gold);
+            color: var(--black);
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-submit:hover {
+            background: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .success-overlay {
+            display: none;
+            position: absolute;
+            inset: 0;
+            background: rgba(10, 42, 94, 0.95);
+            border-radius: 16px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 3rem;
+            z-index: 10;
+            backdrop-filter: blur(5px);
+        }
+
+        .success-overlay.active {
+            display: flex;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+        }
+
+        .success-overlay h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.8rem;
+            letter-spacing: 2px;
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+
+        .success-overlay p {
+            color: var(--white-soft);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            html, body { font-size: 16px; }
+            main { padding: 90px 4% 30px; }
+            .suggestion-card { padding: 2.5rem 1.5rem; }
+            .suggestion-header h1 { font-size: 2.8rem; }
+            .form-row { grid-template-columns: 1fr; gap: 0; }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="logo-container">
+            <img src="/files/dsdlogo.png" alt="Dominican School Logo">
+        </div>
+        <div>
+            <a href="index.html" class="btn-outline-small">
+                <span aria-hidden="true">&larr;</span> Back to Home
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <div class="suggestion-card" style="position: relative;">
+            <div class="success-overlay" id="successMessage">
+                <div class="success-icon" aria-hidden="true">OK</div>
+                <h2>Awesome!</h2>
+                <p>Thanks for helping us make the Virtual Tour Game even better! Keep exploring!</p>
+                <button class="btn-outline-small" onclick="resetForm()" style="font-size: 0.95rem; padding: 0.8rem 1.5rem;">
+                    Send Another
+                </button>
+            </div>
+
+            <div class="suggestion-header">
+                <h1>Game <span>Feedback</span></h1>
+                <p>Did you have fun exploring our 3D school? Let us know what you liked or what we can fix!</p>
+            </div>
+
+            <form id="suggestionForm" onsubmit="handleFormSubmit(event)">
+                <div class="form-row">
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label class="form-label" for="name">Player Name / Nickname (Optional)</label>
+                        <input type="text" id="name" class="form-control" placeholder="e.g. SuperExplorer99">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="category">What do you want to tell us about?</label>
+                    <div class="select-wrapper" id="categorySelectWrapper">
+                        <select id="category" class="form-control" required>
+                            <option value="" disabled selected>Pick one...</option>
+                            <option value="bug">I found a bug/glitch!</option>
+                            <option value="idea">I have a cool idea for a new room!</option>
+                            <option value="improvement">Something needs improvement</option>
+                        </select>
+                        <span class="select-arrow" aria-hidden="true"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="message">Tell us all about it!</label>
+                    <textarea id="message" class="form-control" placeholder="I think the library needs more books, or I got stuck on the stairs..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    Send Feedback <span aria-hidden="true">&rarr;</span>
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        const FEEDBACK_STORAGE_KEY = 'dsdSuggestionBoxSubmissions';
+        const categorySelect = document.getElementById('category');
+        const categorySelectWrapper = document.getElementById('categorySelectWrapper');
+
+        categorySelect.addEventListener('mousedown', () => {
+            categorySelectWrapper.classList.add('is-open');
+        });
+
+        categorySelect.addEventListener('focus', () => {
+            categorySelectWrapper.classList.add('is-open');
+        });
+
+        categorySelect.addEventListener('change', () => {
+            categorySelectWrapper.classList.remove('is-open');
+        });
+
+        categorySelect.addEventListener('blur', () => {
+            categorySelectWrapper.classList.remove('is-open');
+        });
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+
+            const submission = {
+                name: document.getElementById('name').value.trim(),
+                category: document.getElementById('category').value,
+                message: document.getElementById('message').value.trim(),
+                submittedAt: new Date().toISOString()
+            };
+
+            const savedSubmissions = JSON.parse(localStorage.getItem(FEEDBACK_STORAGE_KEY) || '[]');
+            savedSubmissions.push(submission);
+            localStorage.setItem(FEEDBACK_STORAGE_KEY, JSON.stringify(savedSubmissions));
+
+            document.getElementById('successMessage').classList.add('active');
+        }
+
+        function resetForm() {
+            document.getElementById('suggestionForm').reset();
+            document.getElementById('successMessage').classList.remove('active');
+        }
+    </script>
+</body>
+</html>

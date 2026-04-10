@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dominican School, Dagupan</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Pirata+One&display=swap" rel="stylesheet">
+
+    <style>
+
+        /* =============================================
+           VARIABLES
+        ============================================= */
+        :root {
+            --black:       #07090f;
+            --blue-deep:   #051636;
+            --blue-mid:    #0a2a5e;
+            --gold:        #ffd700;
+            --gold-dim:    rgba(255, 215, 0, 0.15);
+            --silver:      #c8cdd8;
+            --white:       #ffffff;
+            --white-soft:  rgba(255, 255, 255, 0.80);
+            --border:      rgba(255, 255, 255, 0.09);
+            --card-bg:     rgba(10, 42, 94, 0.50);
+        }
+
+        /* =============================================
+           RESET
+        ============================================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            font-size: 17px;
+            color: var(--white);
+            background: var(--black);
+            -webkit-tap-highlight-color: transparent;
+            line-height: 1.7;
+        }
+
+        /* =============================================
+           HEADER
+        ============================================= */
+        .main-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 68px;
+            padding: 0 2%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(7, 9, 15, 0.90);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(16px);
+            z-index: 1000;
+        }
+
+        .logo-container {
+            flex: 1;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .logo-container img {
+            height: 46px;
+            width: auto;
+        }
+
+        .main-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-list {
+            display: flex;
+            gap: 0.3rem;
+            list-style: none;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            padding: 5px;
+        }
+
+        .nav-link {
+            display: block;
+            color: var(--white-soft);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 0.5rem 1.3rem;
+            border-radius: 100px;
+            cursor: pointer;
+            transition: color 0.2s, background 0.2s;
+        }
+
+        .nav-link:hover { color: var(--white); }
+
+        .nav-link.active {
+            background: var(--gold);
+            color: var(--black);
+        }
+
+        .play-container {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .play-button {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: transparent;
+            color: var(--gold);
+            border: 1.5px solid var(--gold);
+            padding: 0.55rem 1.4rem;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.82rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .play-button:hover {
+            background: var(--gold);
+            color: var(--black);
+        }
+
+        /* =============================================
+           MOBILE MENU
+        ============================================= */
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            color: var(--gold);
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .mobile-nav-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(7, 9, 15, 0.97);
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 0 10%;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .mobile-nav-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .mobile-nav-item {
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
+            padding: 1.1rem 0;
+            border-bottom: 1px solid var(--border);
+            width: 100%;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .mobile-nav-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1rem;
+            color: var(--gold);
+            letter-spacing: 2px;
+            width: 30px;
+        }
+
+        .mobile-nav-label {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3rem;
+            color: var(--white);
+            letter-spacing: 3px;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+
+        .mobile-nav-item:hover .mobile-nav-label { color: var(--gold); }
+
+        .mobile-tour-btn {
+            margin-top: 2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: var(--gold);
+            color: var(--black);
+            padding: 1rem 2.2rem;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* =============================================
+           SECTIONS — full-page vertical slider
+
+           KEY: All sections are position:absolute stacked
+           on top of each other. JS moves them with
+           translateY to show/hide. z-index only matters
+           during the CSS transition so higher sections
+           slide over lower ones cleanly.
+
+           IMPORTANT: JS must call updateSlidePositions()
+           immediately on load — BEFORE the CSS transition
+           is enabled — otherwise the highest z-index
+           section (contact) is visible first.
+        ============================================= */
+        .background {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            /* Transition is added by JS after first positioning */
+        }
+
+        .background::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(5,22,54,0.78) 0%, rgba(0,0,0,0.65) 100%);
+            z-index: 1;
+        }
+
+        #home-bg    { z-index: 1; background: var(--black); }
+        #about-bg   { z-index: 2; background: var(--blue-deep); }
+        #history-bg { z-index: 3; background: #0d0d14; }
+        #contact-bg { z-index: 4; background: var(--black); }
+
+        .video-background {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+        }
+
+        .video-background video,
+        .video-background img {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 100%; min-height: 100%;
+            width: auto; height: auto;
+            object-fit: cover;
+            filter: brightness(0.45);
+        }
+
+        /* Centers content inside each section */
+        .content-wrapper {
+            position: relative;
+            z-index: 10;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 68px 6% 0;
+        }
+
+        /* Small label above section titles */
+        .section-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .section-tag::before {
+            content: '';
+            display: block;
+            width: 28px;
+            height: 2px;
+            background: var(--gold);
+        }
+
+        /* =============================================
+           HOME SECTION
+        ============================================= */
+        .home-content {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            max-width: 1100px;
+            width: 100%;
+        }
+
+        .home-title {
+            margin-bottom: 1.8rem;
+            line-height: 1;
+        }
+
+        /* "Dominican" — Pirata One, Smaller, Metallic Gradient */
+        .school-name-main {
+            display: block;
+            font-family: "Pirata One", system-ui;
+            font-size: clamp(3rem, 8vw, 8.5rem); /* Reduced size */
+            font-weight: 400;
+            letter-spacing: 4px;
+            line-height: 0.95;
+            
+            /* Metallic Gradient Text */
+            background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 35%, #94a3b8 65%, #334155 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent; 
+        }
+
+        /* "School, Dagupan" — same Pirata One, smaller, silver */
+        .school-name-sub {
+            display: block;
+            font-family: "Pirata One", system-ui;
+            font-size: clamp(1.6rem, 3.5vw, 3.8rem);
+            font-weight: 400;
+            letter-spacing: 5px;
+            color: var(--silver);
+            line-height: 1.2;
+            margin-top: 0.15em;
+        }
+
+        .home-subtitle {
+            font-size: 1.05rem;
+            font-weight: 400;
+            color: var(--white-soft);
+            max-width: 500px;
+            line-height: 1.85;
+            margin-bottom: 2.5rem;
+            border-left: 3px solid var(--gold);
+            padding-left: 1.1rem;
+        }
+
+        .home-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* Gold filled button */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 1rem 2.4rem;
+            background: var(--gold);
+            color: var(--black);
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            border-radius: 6px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s;
+        }
+
+        .btn-primary:hover {
+            background: var(--white);
+            transform: translateY(-2px);
+        }
+
+        /* White outline button */
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 1rem 2.4rem;
+            background: transparent;
+            color: var(--white);
+            border: 1.5px solid rgba(255,255,255,0.35);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            border-radius: 6px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        /* =============================================
+           ABOUT SECTION — tabbed layout (Enlarged)
+        ============================================= */
+        .about-layout {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 2px;
+            width: 100%;
+            max-width: 1100px;
+            background: var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .about-tabs {
+            background: rgba(5, 22, 54, 0.75);
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem 0;
+        }
+
+        .tab-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            padding: 1.6rem 2rem; /* Increased padding */
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            color: var(--white-soft);
+            font-family: 'Inter', sans-serif;
+            font-size: 1.05rem; /* Increased size */
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: left;
+            border-left: 3px solid transparent;
+            transition: color 0.2s, border-color 0.2s, background 0.2s;
+        }
+
+        .tab-btn i {
+            color: var(--gold);
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        .tab-btn:hover { color: var(--white); background: rgba(255,255,255,0.04); }
+
+        .tab-btn.active {
+            color: var(--gold);
+            border-left-color: var(--gold);
+            background: rgba(255, 215, 0, 0.07);
+        }
+
+        .about-panels {
+            background: rgba(10, 42, 94, 0.35);
+            position: relative;
+            min-height: 480px; /* Increased to fill more space */
+        }
+
+        .tab-panel {
+            display: none;
+            padding: 3.5rem; /* Increased padding */
+            height: 100%;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .tab-panel.active { display: flex; }
+
+        .tab-panel h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.8rem; /* Slightly larger heading */
+            letter-spacing: 3px;
+            color: var(--gold);
+            margin-bottom: 1.2rem;
+        }
+
+        .tab-panel p {
+            font-size: 1.1rem; /* Increased body text size */
+            color: var(--white-soft);
+            line-height: 1.9;
+            max-width: 700px;
+        }
+
+        .tab-panel p + p { margin-top: 1rem; }
+
+        .veritas-block {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1.8rem;
+            padding: 1.2rem 1.8rem;
+            background: var(--gold-dim);
+            border: 1px solid rgba(255,215,0,0.25);
+            border-radius: 8px;
+        }
+
+        .veritas-block span {
+            font-style: italic;
+            font-size: 1.25rem;
+            color: var(--gold);
+        }
+
+        /* =============================================
+           HISTORY SECTION
+        ============================================= */
+        .history-content {
+            text-align: center;
+            max-width: 720px;
+        }
+
+        .history-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(3.5rem, 7vw, 7rem);
+            letter-spacing: 5px;
+            line-height: 1;
+            color: var(--white);
+            margin-bottom: 1.5rem;
+        }
+
+        .history-content p {
+            font-size: 1.1rem;
+            color: var(--white-soft);
+            line-height: 1.85;
+            margin-bottom: 2.5rem;
+        }
+
+        /* =============================================
+           CONTACT SECTION
+        ============================================= */
+        .contact-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 1100px;
+            align-items: stretch;
+        }
+
+        .contact-info-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .contact-row {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            padding: 1.35rem 1.6rem;
+            border-bottom: 1px solid var(--border);
+            transition: background 0.2s;
+        }
+
+        .contact-row:last-child { border-bottom: none; }
+        .contact-row:hover { background: rgba(255,255,255,0.04); }
+
+        .contact-icon {
+            width: 46px;
+            height: 46px;
+            min-width: 46px;
+            background: var(--gold-dim);
+            border: 1px solid rgba(255,215,0,0.22);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: var(--gold);
+        }
+
+        .contact-text {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .contact-text span {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.4);
+        }
+
+        .contact-text a,
+        .contact-text p {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--white);
+            text-decoration: none;
+            line-height: 1.4;
+        }
+
+        .contact-text a:hover { color: var(--gold); }
+
+        .map-frame {
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            min-height: 340px;
+        }
+
+        .map-frame iframe {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        /* =============================================
+           VIDEO MODAL
+        ============================================= */
+        .video-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.93);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .video-modal-overlay.active { display: flex; }
+
+        .video-modal-content {
+            width: 90%;
+            max-width: 1000px;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .video-modal-content video { width: 100%; display: block; }
+
+        .close-modal {
+            position: absolute;
+            top: 16px;
+            right: 22px;
+            color: var(--white);
+            font-size: 2.2rem;
+            cursor: pointer;
+            z-index: 2001;
+            line-height: 1;
+        }
+
+        /* =============================================
+           MOBILE-ONLY ELEMENTS (hidden on desktop)
+        ============================================= */
+        .about-mobile-scroll,
+        .contact-mobile-scroll,
+        .mobile-pagination,
+        .mobile-veritas-text,
+        .mobile-maps-btn {
+            display: none;
+        }
+
+        /* =============================================
+           TABLET (max 992px)
+        ============================================= */
+        @media (max-width: 992px) {
+
+            .about-layout { grid-template-columns: 1fr; }
+
+            .about-tabs {
+                flex-direction: row;
+                padding: 0;
+                overflow-x: auto;
+            }
+
+            .tab-btn {
+                border-left: none;
+                border-bottom: 3px solid transparent;
+                padding: 1.2rem 1.8rem;
+                white-space: nowrap;
+            }
+
+            .tab-btn.active {
+                border-left-color: transparent;
+                border-bottom-color: var(--gold);
+            }
+
+            .contact-layout { grid-template-columns: 1fr; }
+            .map-frame { min-height: 240px; }
+        }
+
+        /* =============================================
+           MOBILE (max 768px)
+        ============================================= */
+        @media (max-width: 768px) {
+
+            html, body { font-size: 16px; }
+
+            .main-nav, .play-container { display: none; }
+            .mobile-menu-btn { display: block; flex: 1; text-align: right; }
+            .logo-container img { height: 40px; }
+
+            .content-wrapper {
+                padding: 68px 18px 20px;
+                justify-content: flex-start;
+            }
+
+            #home-bg .content-wrapper {
+                justify-content: center;
+                padding: 0 18px;
+            }
+
+            .school-name-main { font-size: 2.8rem; }
+            .school-name-sub  { font-size: 1.25rem; }
+            .history-title    { font-size: 3rem; }
+            .history-content p { font-size: 0.95rem; }
+
+            /* Hide desktop about/contact layouts */
+            .about-content, .contact-layout { display: none; }
+
+            /* Show mobile sliders */
+            .about-mobile-scroll,
+            .contact-mobile-scroll {
+                display: flex;
+                flex-direction: row;
+                width: 100%;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+                margin-bottom: 12px;
+            }
+
+            .about-mobile-scroll::-webkit-scrollbar,
+            .contact-mobile-scroll::-webkit-scrollbar { display: none; }
+
+            .glass-card-mobile {
+                scroll-snap-align: start;
+                min-width: calc(100% - 16px);
+                width: calc(100% - 16px);
+                margin-right: 16px;
+                height: 52vh; /* Increased from 44vh to match desktop scaling */
+                flex-shrink: 0;
+                background: var(--card-bg);
+                border: 1px solid var(--border);
+                border-radius: 14px;
+                padding: 2rem; /* Increased from 1.5rem */
+                display: flex;
+                flex-direction: column;
+            }
+
+            .glass-card-mobile:last-child {
+                min-width: 100%;
+                width: 100%;
+                margin-right: 0;
+            }
+
+            .glass-card-mobile h2 {
+                font-family: 'Bebas Neue', sans-serif;
+                color: var(--gold);
+                font-size: 1.9rem;
+                letter-spacing: 2px;
+                margin-bottom: 0.8rem;
+                padding-bottom: 0.8rem;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .glass-card-mobile p {
+                font-size: 1.05rem; /* Increased slightly */
+                color: var(--white-soft);
+                line-height: 1.8;
+                overflow-y: auto;
+                flex: 1;
+            }
+
+            .glass-card-mobile p::-webkit-scrollbar { width: 3px; }
+            .glass-card-mobile p::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+
+            .mobile-pagination {
+                display: flex;
+                justify-content: center;
+                gap: 8px;
+                margin-bottom: 12px;
+            }
+
+            .mobile-dot {
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: rgba(255,255,255,0.2);
+                transition: all 0.3s;
+            }
+
+            .mobile-dot.active {
+                background: var(--gold);
+                width: 24px;
+                border-radius: 4px;
+            }
+
+            .mobile-veritas-text {
+                display: block;
+                text-align: center;
+                background: var(--gold-dim);
+                border: 1px solid rgba(255,215,0,0.2);
+                border-radius: 10px;
+                padding: 14px 18px;
+                margin-bottom: 16px;
+                width: 100%;
+                font-style: italic;
+                font-size: 1.05rem;
+                color: var(--gold);
+            }
+
+            .mobile-maps-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.5rem;
+                width: 100%;
+                background: #1a73e8;
+                color: var(--white);
+                padding: 1rem;
+                border-radius: 10px;
+                text-decoration: none;
+                font-weight: 600;
+                font-size: 1rem;
+                margin-top: 12px;
+            }
+
+            .home-buttons { flex-direction: column; }
+            .btn-primary, .btn-outline { width: 100%; justify-content: center; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="main-header">
+        <div class="logo-container">
+            <img src="/files/dsdlogo.png" alt="Dominican School Logo">
+        </div>
+        <nav class="main-nav">
+            <ul class="nav-list">
+                <li><a class="nav-link active" data-slide="0">Home</a></li>
+                <li><a class="nav-link" data-slide="1">About</a></li>
+                <li><a class="nav-link" data-slide="2">History</a></li>
+                <li><a class="nav-link" data-slide="3">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="mobile-menu-btn"><i class="fas fa-bars"></i></div>
+        <div class="play-container">
+            <a href="virtualtour.html" class="play-button virtual-tour-link">
+                <i class="fas fa-gamepad"></i> Play Tour
+            </a>
+        </div>
+    </header>
+
+    <!-- MOBILE MENU OVERLAY -->
+    <div class="mobile-nav-overlay">
+        <a class="mobile-nav-item" data-slide="0">
+            <span class="mobile-nav-number">01</span>
+            <span class="mobile-nav-label">Home</span>
+        </a>
+        <a class="mobile-nav-item" data-slide="1">
+            <span class="mobile-nav-number">02</span>
+            <span class="mobile-nav-label">About</span>
+        </a>
+        <a class="mobile-nav-item" data-slide="2">
+            <span class="mobile-nav-number">03</span>
+            <span class="mobile-nav-label">History</span>
+        </a>
+        <a class="mobile-nav-item" data-slide="3">
+            <span class="mobile-nav-number">04</span>
+            <span class="mobile-nav-label">Contact</span>
+        </a>
+        <a href="virtualtour.html" class="mobile-tour-btn virtual-tour-link">
+            <i class="fas fa-gamepad"></i> Play Tour
+        </a>
+    </div>
+
+    <!-- SECTION 1: HOME -->
+    <div class="background" id="home-bg">
+        <div class="video-background">
+            <video autoplay muted loop playsinline>
+                <source src="/files/Dominicanschool.mp4" type="video/mp4">
+            </video>
+        </div>
+        <div class="content-wrapper">
+            <div class="home-content">
+                <div class="home-title">
+                    <span class="school-name-main">Dominican</span>
+                    <span class="school-name-sub">School, Dagupan</span>
+                </div>
+                <p class="home-subtitle">
+                    Greetings in our father, St. Dominic!<br>
+                    Excellence in Character and Education.
+                </p>
+                <div class="home-buttons">
+                    <a href="virtualtour.html" class="btn-primary virtual-tour-link">
+                        <i class="fas fa-gamepad"></i> Start Experience
+                    </a>
+                    <button class="btn-outline" id="learnMoreBtn">
+                        <i class="fas fa-arrow-down"></i> Learn More
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 2: ABOUT -->
+    <div class="background" id="about-bg">
+        <div class="content-wrapper">
+            <div class="section-tag">Who We Are</div>
+            <!-- Desktop tabbed layout -->
+            <div class="about-layout about-content">
+                <div class="about-tabs">
+                    <button class="tab-btn active" data-tab="vision">
+                        <i class="fas fa-eye"></i> Vision
+                    </button>
+                    <button class="tab-btn" data-tab="mission">
+                        <i class="fas fa-bullseye"></i> Mission
+                    </button>
+                    <button class="tab-btn" data-tab="values">
+                        <i class="fas fa-star"></i> Values
+                    </button>
+                </div>
+                <div class="about-panels">
+                    <div class="tab-panel active" id="panel-vision">
+                        <h2>Our Vision</h2>
+                        <p>We envision Dominican School, Dagupan as an evolving center of character formation and academic excellence that nurtures Learners into becoming transformative leaders of global society, who are bearers of TRUTH in the service of God, country and fellowmen.</p>
+                    </div>
+                    <div class="tab-panel" id="panel-mission">
+                        <h2>Our Mission</h2>
+                        <p>As a Catholic, Filipino and Dominican School, we commit ourselves to nurture our Christ-like attitude, deepen our devotion to the Blessed Mother, protect God's creation, participate in social transformation, bring the TRUTH wherever we go and live the Dominican Spirit of STUDY, for the benefit of the society.</p>
+                        <p>WE, DOMINICANS bear witness to the TRUTH in the SERVICE of GOD and His CREATION.</p>
+                    </div>
+                    <div class="tab-panel" id="panel-values">
+                        <h2>Core Values</h2>
+                        <p>The Dominican educational tradition is rooted in the pursuit of Truth (Veritas) through study, prayer, community, and preaching. These four pillars guide every aspect of school life — from the classroom to the community.</p>
+                        <div class="veritas-block">
+                            <i class="fas fa-quote-left" style="color:var(--gold); font-size:1.4rem;"></i>
+                            <span>"Veritas Et Excellentia"</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Mobile slider -->
+            <div class="about-mobile-scroll" id="aboutSlider">
+                <div class="glass-card-mobile">
+                    <h2>Our Vision</h2>
+                    <p>We envision Dominican School, Dagupan as an evolving center of character formation and academic excellence that nurtures Learners into becoming transformative leaders of global society, who are bearers of TRUTH in the service of God, country and fellowmen.</p>
+                </div>
+                <div class="glass-card-mobile">
+                    <h2>Our Mission</h2>
+                    <p>As a Catholic, Filipino and Dominican School, we commit ourselves to nurture our Christ-like attitude, deepen our devotion to the Blessed Mother, protect God's creation, participate in social transformation, bring the TRUTH wherever we go and live the Dominican Spirit of STUDY, for the benefit of the society.</p>
+                </div>
+                <div class="glass-card-mobile">
+                    <h2>Our Values</h2>
+                    <p>The Dominican tradition is rooted in the pursuit of Truth through study, prayer, community, and preaching — guiding every aspect of school life from classroom to community.</p>
+                </div>
+            </div>
+            <div class="mobile-pagination" id="aboutDots">
+                <div class="mobile-dot active"></div>
+                <div class="mobile-dot"></div>
+                <div class="mobile-dot"></div>
+            </div>
+            <div class="mobile-veritas-text">"Veritas Et Excellentia"</div>
+        </div>
+    </div>
+
+    <!-- SECTION 3: HISTORY -->
+    <div class="background" id="history-bg">
+        <div class="video-background">
+            <img src="/files/Dominicanbghistory.jpg" alt="Dominican History">
+        </div>
+        <div class="content-wrapper">
+            <div class="history-content">
+                <h1 class="history-title">OUR<br>HISTORY</h1>
+                <p>Discover the rich legacy of Dominican School Dagupan, spanning decades of academic excellence and spiritual formation.</p>
+                <a href="#" class="btn-primary" id="watchHistoryBtn" style="margin: 0 auto;">
+                    <i class="fas fa-play"></i> Watch History
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 4: CONTACT -->
+    <div class="background" id="contact-bg">
+        <div class="content-wrapper">
+            <div class="section-tag">Get In Touch</div>
+            <h1 style="font-family:'Bebas Neue',sans-serif; font-size:3.2rem; letter-spacing:4px; color:var(--white); margin-bottom:1.8rem;">
+                Contact <span style="color:var(--gold);">Us</span>
+            </h1>
+            <!-- Desktop layout -->
+            <div class="contact-layout">
+                <div class="contact-info-card">
+                    <div class="contact-row">
+                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                        <div class="contact-text">
+                            <span>Email</span>
+                            <a href="mailto:dominicanschooldagupan@gmail.com">dominicanschooldagupan@gmail.com</a>
+                        </div>
+                    </div>
+                    <div class="contact-row">
+                        <div class="contact-icon"><i class="fab fa-facebook"></i></div>
+                        <div class="contact-text">
+                            <span>Facebook</span>
+                            <a href="https://facebook.com/100064233124785" target="_blank">Dominican School Dagupan</a>
+                        </div>
+                    </div>
+                    <div class="contact-row">
+                        <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                        <div class="contact-text">
+                            <span>Phone</span>
+                            <a href="tel:+63755222435">(075) 522-2435</a>
+                        </div>
+                    </div>
+                    <div class="contact-row">
+                        <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div class="contact-text">
+                            <span>Address</span>
+                            <p>294 Dagupan-Binmaley Rd, Dagupan City</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="map-frame">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3834.6336882241926!2d120.32851417578391!3d16.032573340416942!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33915d45693e9c57%3A0x59674223c9ab71c1!2sDominican%20School!5e0!3m2!1sen!2sph!4v1753089468373!5m2!1sen!2sph"
+                        style="border:0;" allowfullscreen="" loading="lazy">
+                    </iframe>
+                </div>
+            </div>
+            <!-- Mobile slider -->
+            <div class="contact-mobile-scroll" id="contactSlider">
+                <div class="glass-card-mobile">
+                    <h2>Get In Touch</h2>
+                    <div style="display:flex; flex-direction:column; gap:1rem; flex:1; padding-top:0.5rem;">
+                        <div style="display:flex; align-items:center; gap:1rem;">
+                            <div class="contact-icon" style="min-width:42px;width:42px;height:42px;border-radius:8px;font-size:1rem;">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <a href="mailto:dominicanschooldagupan@gmail.com" style="font-size:0.9rem;color:var(--white);text-decoration:none;font-weight:600;">dominicanschooldagupan@gmail.com</a>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:1rem;">
+                            <div class="contact-icon" style="min-width:42px;width:42px;height:42px;border-radius:8px;font-size:1rem;">
+                                <i class="fab fa-facebook"></i>
+                            </div>
+                            <a href="https://facebook.com/100064233124785" target="_blank" style="font-size:0.9rem;color:var(--white);text-decoration:none;font-weight:600;">Dominican School Dagupan</a>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:1rem;">
+                            <div class="contact-icon" style="min-width:42px;width:42px;height:42px;border-radius:8px;font-size:1rem;">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <a href="tel:+63755222435" style="font-size:0.9rem;color:var(--white);text-decoration:none;font-weight:600;">(075) 522-2435</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-card-mobile">
+                    <h2>Visit Us</h2>
+                    <div style="display:flex;align-items:flex-start;gap:1rem;margin-bottom:1rem;padding-top:0.5rem;">
+                        <div class="contact-icon" style="min-width:42px;width:42px;height:42px;border-radius:8px;font-size:1rem;flex-shrink:0;">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <p style="font-size:0.95rem;color:var(--white-soft);line-height:1.7;">294 Dagupan-Binmaley Rd,<br>Dagupan City, 2400 Pangasinan</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Dominican+School+Dagupan" target="_blank" class="mobile-maps-btn">
+                        <i class="fas fa-location-arrow"></i> Open in Google Maps
+                    </a>
+                </div>
+            </div>
+            <div class="mobile-pagination" id="contactDots">
+                <div class="mobile-dot active"></div>
+                <div class="mobile-dot"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIDEO MODAL -->
+    <div class="video-modal-overlay" id="videoModal">
+        <div class="close-modal" id="closeModal">&times;</div>
+        <div class="video-modal-content">
+            <video controls id="historyVideo">
+                <source src="/files/Dominicanhistory.mp4" type="video/mp4">
+                Your browser does not support video playback.
+            </video>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         JAVASCRIPT — All logic in one complete block
+    ============================================================ -->
+    <script>
+
+        // -------------------------------------------------------
+        // Virtual tour version links
+        // -------------------------------------------------------
+        var APP_VERSION = 'v2.0.0';
+        document.querySelectorAll('.virtual-tour-link').forEach(function(link) {
+            link.href = 'virtualtour.html?v=' + APP_VERSION;
+        });
+
+        // -------------------------------------------------------
+        // SECTION NAVIGATION STATE
+        // -------------------------------------------------------
+        var currentSlide = 0;
+        var totalSlides  = 4;
+        var scrolling    = false;
+
+        var backgrounds = [
+            document.getElementById('home-bg'),
+            document.getElementById('about-bg'),
+            document.getElementById('history-bg'),
+            document.getElementById('contact-bg')
+        ];
+
+        var navLinks = document.querySelectorAll('.nav-link');
+
+        // Moves every section to its correct translateY position
+        function updateSlidePositions() {
+            backgrounds.forEach(function(bg, i) {
+                if (i < currentSlide) {
+                    bg.style.transform = 'translateY(-100vh)';
+                } else if (i > currentSlide) {
+                    bg.style.transform = 'translateY(' + (100 * (i - currentSlide)) + 'vh)';
+                } else {
+                    bg.style.transform = 'translateY(0)';
+                }
+            });
+            navLinks.forEach(function(link, i) {
+                link.classList.toggle('active', i === currentSlide);
+            });
+        }
+
+        // Navigates to a slide index
+        function scrollToSlide(index) {
+            if (index < 0 || index >= totalSlides || scrolling) return;
+            scrolling = true;
+            currentSlide = index;
+            updateSlidePositions();
+            setTimeout(function() { scrolling = false; }, 1000);
+        }
+
+        // -------------------------------------------------------
+        // CRITICAL FIX: Position all slides INSTANTLY on load.
+        //
+        // Without this, all sections sit at position:absolute top:0
+        // stacked on each other. contact-bg has z-index:4 so it
+        // shows on top. We must push sections offscreen BEFORE
+        // enabling the CSS transition, otherwise they animate in
+        // from the wrong place.
+        //
+        // Step 1: Disable transition
+        // Step 2: Position everything (contact → 300vh, etc.)
+        // Step 3: Re-enable transition after one paint frame
+        // -------------------------------------------------------
+        backgrounds.forEach(function(bg) {
+            bg.style.transition = 'none';
+        });
+
+        updateSlidePositions();   // Set all positions instantly
+
+        // Wait one animation frame then re-enable smooth transitions
+        requestAnimationFrame(function() {
+            requestAnimationFrame(function() {
+                backgrounds.forEach(function(bg) {
+                    bg.style.transition = 'transform 1s cubic-bezier(0.22, 0.44, 0, 1)';
+                });
+            });
+        });
+
+        // -------------------------------------------------------
+        // MOUSE WHEEL — scroll between sections
+        // -------------------------------------------------------
+        document.addEventListener('wheel', function(e) {
+            if (scrolling || videoModal.classList.contains('active')) return;
+            if (e.deltaY > 0) scrollToSlide(currentSlide + 1);
+            else              scrollToSlide(currentSlide - 1);
+        }, { passive: true });
+
+        // -------------------------------------------------------
+        // TOUCH SWIPE — up/down to change section on mobile
+        // -------------------------------------------------------
+        var touchStartY = 0;
+
+        document.addEventListener('touchstart', function(e) {
+            touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+
+        document.addEventListener('touchend', function(e) {
+            if (scrolling || videoModal.classList.contains('active')) return;
+            if (e.target.closest('.about-mobile-scroll') ||
+                e.target.closest('.contact-mobile-scroll') ||
+                e.target.closest('.glass-card-mobile')) return;
+            var diff = touchStartY - e.changedTouches[0].clientY;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) scrollToSlide(currentSlide + 1);
+                else          scrollToSlide(currentSlide - 1);
+            }
+        }, { passive: true });
+
+        // -------------------------------------------------------
+        // NAV LINKS — click to jump to a section
+        // -------------------------------------------------------
+        navLinks.forEach(function(link) {
+            link.addEventListener('click', function() {
+                scrollToSlide(parseInt(this.getAttribute('data-slide')));
+            });
+        });
+
+        // -------------------------------------------------------
+        // "Learn More" button — goes to About section
+        // -------------------------------------------------------
+        document.getElementById('learnMoreBtn').addEventListener('click', function() {
+            scrollToSlide(1);
+        });
+
+        // -------------------------------------------------------
+        // MOBILE HAMBURGER MENU
+        // -------------------------------------------------------
+        var mobileMenuBtn    = document.querySelector('.mobile-menu-btn');
+        var mobileNavOverlay = document.querySelector('.mobile-nav-overlay');
+
+        mobileMenuBtn.addEventListener('click', function() {
+            var isOpen = mobileNavOverlay.classList.toggle('active');
+            mobileMenuBtn.innerHTML = isOpen
+                ? '<i class="fas fa-times"></i>'
+                : '<i class="fas fa-bars"></i>';
+        });
+
+        document.querySelectorAll('.mobile-nav-item').forEach(function(item) {
+            item.addEventListener('click', function() {
+                mobileNavOverlay.classList.remove('active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                var slide = parseInt(this.getAttribute('data-slide'));
+                if (!isNaN(slide)) scrollToSlide(slide);
+            });
+        });
+
+        // -------------------------------------------------------
+        // ABOUT TABS — click to switch panels
+        // -------------------------------------------------------
+        var tabBtns   = document.querySelectorAll('.tab-btn');
+        var tabPanels = document.querySelectorAll('.tab-panel');
+
+        tabBtns.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var target = this.getAttribute('data-tab');
+                tabBtns.forEach(function(b)   { b.classList.remove('active'); });
+                tabPanels.forEach(function(p) { p.classList.remove('active'); });
+                this.classList.add('active');
+                document.getElementById('panel-' + target).classList.add('active');
+            });
+        });
+
+        // -------------------------------------------------------
+        // VIDEO MODAL
+        // -------------------------------------------------------
+        var videoModal   = document.getElementById('videoModal');
+        var historyVideo = document.getElementById('historyVideo');
+
+        document.getElementById('watchHistoryBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            videoModal.classList.add('active');
+            historyVideo.play();
+        });
+
+        function closeModal() {
+            videoModal.classList.remove('active');
+            historyVideo.pause();
+            historyVideo.currentTime = 0;
+        }
+
+        document.getElementById('closeModal').addEventListener('click', closeModal);
+        videoModal.addEventListener('click', function(e) {
+            if (e.target === videoModal) closeModal();
+        });
+
+        // -------------------------------------------------------
+        // MOBILE CARD SLIDERS — update dot pagination on swipe
+        // -------------------------------------------------------
+        function setupMobileSlider(sliderId, dotsId) {
+            var slider = document.getElementById(sliderId);
+            var dotsContainer = document.getElementById(dotsId);
+            if (!slider || !dotsContainer) return;
+
+            var sliderDots = dotsContainer.querySelectorAll('.mobile-dot');
+
+            function updateDots() {
+                var card = slider.querySelector('.glass-card-mobile');
+                if (!card) return;
+                var index = Math.round(slider.scrollLeft / (card.offsetWidth + 16));
+                sliderDots.forEach(function(dot, i) {
+                    dot.classList.toggle('active', i === index);
+                });
+            }
+
+            slider.addEventListener('scroll', updateDots);
+            window.addEventListener('resize', updateDots);
+        }
+
+        window.addEventListener('load', function() {
+            setupMobileSlider('aboutSlider',   'aboutDots');
+            setupMobileSlider('contactSlider', 'contactDots');
+        });
+
+    </script>
+</body>
+</html>
